@@ -126,6 +126,11 @@ class JVMGCLog
       record.update(match_fields_to_hash(m))
       record["type"] = "FullGC"
 
+    when /\[GC \(CMS Final Remark\).+ (?<gctime>[\d\.]+) secs\]/
+      m = Regexp.last_match
+      record.update(match_fields_to_hash(m))
+      record["type"] = "CMS-Final-Remark"
+
     when /^\[(?<type>[A-Za-z\-]+)(: (?<time_cpu>[\d\.]+)\/(?<time_wall>[\d\.]+) secs)?\]/
       m = Regexp.last_match
       record.update(match_fields_to_hash(m))
