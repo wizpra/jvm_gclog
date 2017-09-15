@@ -2,7 +2,7 @@ require 'time'
 
 class JVMGCLog
   def initialize
-    @regexp_prefix = Regexp.compile('^(?<time>\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d+\+\d{4}): (?<uptime>\d+\.\d*): ')
+    @regexp_prefix = Regexp.compile('^.+container_id:(?<container_id>[0-9a-z]+).+message:(?<time>\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d+\+\d{4}): (?<uptime>\d+\.\d*): ')
   end
 
   def adjust_type(value)
@@ -73,6 +73,7 @@ class JVMGCLog
 
     record["time"] = Time.parse(m[:time]).to_i
     record["uptime"] = adjust_type(m["uptime"])
+    record["container_id"] = m["container_id"]
 
     case body
     when /^\[GC pause/
