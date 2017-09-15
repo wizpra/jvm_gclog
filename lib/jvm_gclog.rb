@@ -73,6 +73,7 @@ class JVMGCLog
 
     record["time"] = Time.parse(m[:time]).to_i
     record["uptime"] = adjust_type(m["uptime"])
+    record["container_id"] = m["container_id"]
 
     case body
     when /^\[GC pause/
